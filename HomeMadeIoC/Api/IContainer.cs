@@ -8,6 +8,13 @@ namespace HomeMadeIoC.Api;
 
 public interface IContainer
 {
-    public T GetService<T>();
-    public object GetService(string name);
+    T GetService<T>();
+
+    void AddSingleton<T>();
+    void AddSingleton<TAbstraction, TImplementation>();
+
+    void AddScoped<T>();
+    void AddScoped<TAbstraction, TImplementation>();
+
+    void AddConfiguration(string path);
 }

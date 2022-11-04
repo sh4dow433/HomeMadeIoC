@@ -6,6 +6,6 @@ using System.Threading.Tasks;
 
 namespace HomeMadeIoC.Exceptions;
 
-internal class CircularDependencyException : Exception
+public class CircularDependencyException : Exception
 {
 }

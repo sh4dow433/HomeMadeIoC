@@ -6,6 +6,6 @@ using System.Threading.Tasks;
 
 namespace HomeMadeIoC.Exceptions;
 
-public class UnresolvedDependencyException
+public class UnresolvedDependencyException : Exception
 {
 }
