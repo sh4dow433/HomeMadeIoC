@@ -11,22 +11,23 @@ public class Program
 {
     public static void Main(string[] args)
     {
-        //try
-        //{
+        try
+        {
             IContainer container = new ContainerPlus();
-            container.AddSingleton<IA, A>();
+            container.AddScoped<IA, A>();
             container.AddScoped<B>();
             container.AddScoped<IC, C>();
             container.AddSingleton<D>();
 
             IA ia = container.GetService<IA>();
+            IA ia2 = container.GetService<A>();
             ia.Hello();
             Console.WriteLine("hissss");
-        //}
-        //catch (Exception ex)
-        //{
-        //    Console.WriteLine(ex.Message);
-        //}
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
     }
 }
 
@@ -66,7 +67,7 @@ public class C : IC
 
 public class D
 {
-    public D(A a)
+    public D()
     {
         Console.WriteLine("hi from D");
     }
