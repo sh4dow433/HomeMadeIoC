@@ -92,7 +92,7 @@ internal class DependecyGraph
         // add the new dependencies recursively
         foreach (var type in node.TypeDependencies)
         {
-            var dependency = _nodes.FirstOrDefault(n => n.ImplementationType == type);
+            var dependency = _nodes.FirstOrDefault(n => n.ImplementationType == type || n.AbstractionType == type);
             if (dependency == null)
             {
                 throw new UnresolvedDependencyException(type.Name);

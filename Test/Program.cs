@@ -50,7 +50,7 @@ public class A : IA
 
 public class B
 {
-    public B(C c, D d)
+    public B(IC c, D d)
     {
 
     }
