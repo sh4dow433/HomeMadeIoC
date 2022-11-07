@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace HomeMadeIoC.Exceptions;
 
-public class InvalidScopeException : Exception
+public class InvalidLifeTimeException : Exception
 {
-    public InvalidScopeException()
+    public InvalidLifeTimeException()
         : base($"A singleton can only depend on other singletons.")
     {
 

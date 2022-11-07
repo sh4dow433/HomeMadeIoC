@@ -105,7 +105,7 @@ internal class DependecyGraph
             }
             if (dependency.LifeTime == LifeTime.Scoped && isSingleton)
             {
-                throw new InvalidScopeException();
+                throw new InvalidLifeTimeException();
             }
             SolveDependencies(dependency, setOfNodes, isSingleton || dependency.LifeTime == LifeTime.Singleton);
             node.Dependencies.Add(dependency);
