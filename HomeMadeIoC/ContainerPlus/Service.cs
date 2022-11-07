@@ -2,31 +2,31 @@
 
 namespace HomeMadeIoC.ContainerPlus;
 
-internal class Service : IService
+internal class Node
 {
-    public Type TypeRequired { get; set; }
+    public Type AbstractionType { get; set; }
+    public Type ImplementationType { get; set; }
     public LifeTime LifeTime { get; set; }
     public List<Type> TypeDependencies { get; set; }
 
-
-    public Service(Type type, LifeTime lifeTime = LifeTime.Scoped)
-    {
-        var ctor = type.GetConstructors()[0];
-        TypeDependencies = ctor.GetParameters().Select(paramInfo => paramInfo.ParameterType).Where(p => p.IsValueType == false).ToList();
-        TypeRequired = type;
-        LifeTime = lifeTime;
-    }
-}
-
-internal class Node
-{
-    public IService Service { get; }
     public List<Node> Dependencies { get; set; } = new();
     public object? Instance { get; set; }
 
-    public Node(IService service)
+    public Node(Type type, LifeTime lifeTime = LifeTime.Scoped)
     {
-        Service = service;
+        var ctor = type.GetConstructors()[0];
+        TypeDependencies = ctor.GetParameters().Select(paramInfo => paramInfo.ParameterType).Where(p => p.IsValueType == false).ToList();
+        ImplementationType = type;
+        AbstractionType = type;
+        LifeTime = lifeTime;
+    }
+    public Node(Type abstractionType, Type implementationType, LifeTime lifeTime = LifeTime.Scoped)
+    {
+        var ctor = implementationType.GetConstructors()[0];
+        TypeDependencies = ctor.GetParameters().Select(paramInfo => paramInfo.ParameterType).Where(p => p.IsValueType == false).ToList();
+        ImplementationType = implementationType;
+        AbstractionType = abstractionType;
+        LifeTime = lifeTime;
     }
 }
 
@@ -41,14 +41,13 @@ internal class DependecyGraph
     {
         // singleton
     }
-    public void AddService(IService service)
+    public void AddNode(Node node)
     {
-        _nodes.Add(new(service));
+        _nodes.Add(node);   
     }
-
     public object GetInstance(Type type)
     {
-        Node? node = _nodes.FirstOrDefault(n => n.Service.TypeRequired == type);  
+        Node? node = _nodes.FirstOrDefault(n => n.AbstractionType == type || n.ImplementationType == type);
         if (node == null)
         {
             return new UnresolvedDependencyException();
@@ -57,10 +56,11 @@ internal class DependecyGraph
         {
             return node.Instance;   
         }
+        type = node.ImplementationType;
         object? instance;
-        bool isSingleton = node.Service.LifeTime == LifeTime.Singleton;
+        bool isSingleton = node.LifeTime == LifeTime.Singleton;
         
-        if (node.Service.TypeDependencies == null || node.Service.TypeDependencies.Any() == false)
+        if (node.TypeDependencies == null || node.TypeDependencies.Any() == false)
         {
             instance = Activator.CreateInstance(type);
             if (instance == null)
@@ -78,7 +78,7 @@ internal class DependecyGraph
         
         for(int i = 0; i < node.Dependencies.Count; i++)   
         {
-            object? builtDependecy = GetInstance(node.Dependencies[i].Service.TypeRequired);
+            object? builtDependecy = GetInstance(node.Dependencies[i].ImplementationType);
             if (builtDependecy == null)
             {
                 throw new Exception("Object couldn't be instantiated.");
@@ -101,7 +101,7 @@ internal class DependecyGraph
     private void SolveDependencies(Node node, HashSet<Node> setOfNodes, bool isSingleton)
     {
         // check if the node needs dependencies
-        if (node.Service.TypeDependencies.Any() == false)
+        if (node.TypeDependencies.Any() == false)
         {
             return;
         }
@@ -117,14 +117,14 @@ internal class DependecyGraph
         setOfNodes.Add(node);
 
         // add the new dependencies recursively
-        foreach (var type in node.Service.TypeDependencies)
+        foreach (var type in node.TypeDependencies)
         {
-            var dependency = _nodes.FirstOrDefault(n => n.Service.TypeRequired == type);
+            var dependency = _nodes.FirstOrDefault(n => n.ImplementationType == type);
             if (dependency == null)
             {
                 throw new UnresolvedDependencyException();
             }
-            if (dependency.Service.LifeTime == LifeTime.Scoped && isSingleton)
+            if (dependency.LifeTime == LifeTime.Scoped && isSingleton)
             {
                 throw new UnresolvedDependencyException(); /// CHANGE THIS EXCEPTION
             }

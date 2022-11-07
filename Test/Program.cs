@@ -11,16 +11,22 @@ public class Program
 {
     public static void Main(string[] args)
     {
-        IContainer container = new Container();
-        container.AddScoped<IA, A>();
-        container.AddScoped<B>();
-        container.AddScoped<C>();
-        container.AddSingleton<D>();
+        //try
+        //{
+            IContainer container = new ContainerPlus();
+            container.AddSingleton<IA, A>();
+            container.AddScoped<B>();
+            container.AddScoped<IC, C>();
+            container.AddSingleton<D>();
 
-        IA ia = container.GetService<IA>();
-        IA ia2 = container.GetService<IA>();
-        ia.Hello();
-        Console.WriteLine("hi");
+            IA ia = container.GetService<IA>();
+            ia.Hello();
+            Console.WriteLine("hissss");
+        //}
+        //catch (Exception ex)
+        //{
+        //    Console.WriteLine(ex.Message);
+        //}
     }
 }
 
@@ -49,9 +55,10 @@ public class B
     }
 }
 
-public class C
+public interface IC { }
+public class C : IC
 {
-    public C()
+    public C(D d)
     {
         Console.WriteLine("hi from C");
     }
@@ -59,7 +66,7 @@ public class C
 
 public class D
 {
-    public D()
+    public D(A a)
     {
         Console.WriteLine("hi from D");
     }

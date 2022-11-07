@@ -18,28 +18,26 @@ public class ContainerPlus : IContainer
 
     public void AddScoped<T>()
     {
-        var service = new Service(typeof(T), LifeTime.Scoped);
-        _dependecyGraph.AddService(service);
+        var node = new Node(typeof(T));
+        _dependecyGraph.AddNode(node);
     }
 
     public void AddScoped<TAbstraction, TImplementation>()
     {
-        var innerService = new Service(typeof(TImplementation), LifeTime.Scoped);
-        var outterService = new ServiceWithAbstractionDecorator(typeof(TAbstraction), innerService);
-        _dependecyGraph.AddService(outterService);
+        var node = new Node(typeof(TAbstraction), typeof(TImplementation));
+        _dependecyGraph.AddNode(node);
     }
 
     public void AddSingleton<T>()
     {
-        var service = new Service(typeof(T), LifeTime.Singleton);
-        _dependecyGraph.AddService(service);
+        var node = new Node(typeof(T), LifeTime.Singleton);
+        _dependecyGraph.AddNode(node);
     }
 
     public void AddSingleton<TAbstraction, TImplementation>()
     {
-        var innerService = new Service(typeof(TImplementation), LifeTime.Singleton);
-        var outterService = new ServiceWithAbstractionDecorator(typeof(TAbstraction), innerService);
-        _dependecyGraph.AddService(outterService);
+        var node = new Node(typeof(TAbstraction), typeof(TImplementation), LifeTime.Singleton);
+        _dependecyGraph.AddNode(node);
     }
 
     public T GetService<T>()
