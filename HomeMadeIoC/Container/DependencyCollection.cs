@@ -93,13 +93,14 @@ internal class DependencyCollection
 
     private bool CheckForCircularDependency(IService service, Type type)
     {
-        if (service.BuiltDependencies == null)
+        if (service.Dependencies.Any() == false)
         {
             return false;
         }
-        foreach (var dependency in service.BuiltDependencies)
+        foreach (var dependencyType in service.Dependencies)
         {
-            if (dependency.TypeRequired == type)
+            var dependency = _services.First(service => service.TypeRequired == dependencyType);
+            if(dependency.TypeRequired == type)
             {
                 return true;
             }
