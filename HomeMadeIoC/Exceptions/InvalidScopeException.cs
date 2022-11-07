@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace HomeMadeIoC.Exceptions;
 
-public class UnresolvedDependencyException : Exception
+public class InvalidScopeException : Exception
 {
-    public UnresolvedDependencyException(string type)
-        : base($"Type {type} couldn't be resolved.")
+    public InvalidScopeException()
+        : base($"A singleton can only depend on other singletons.")
     {
+
     }
 }

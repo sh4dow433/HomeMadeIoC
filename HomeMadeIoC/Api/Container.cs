@@ -9,7 +9,7 @@ namespace HomeMadeIoC.Api;
 
 public class Container : IContainer
 {
-    private readonly DependecyGraph _dependecyGraph = DependecyGraph.GetDependecyGraph;
+    private readonly DependecyGraph _dependecyGraph = DependecyGraph.DependencyGraphInstance;
 
     public void AddConfiguration(string path)
     {

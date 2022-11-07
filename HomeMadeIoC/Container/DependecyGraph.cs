@@ -7,7 +7,7 @@ internal class DependecyGraph
     private readonly List<Node> _nodes = new();
 
     private static DependecyGraph? _dependencyGraphSingleton;
-    public static DependecyGraph GetDependecyGraph => _dependencyGraphSingleton ??= new();
+    public static DependecyGraph DependencyGraphInstance => _dependencyGraphSingleton ??= new();
 
     private DependecyGraph()
     {
@@ -22,7 +22,7 @@ internal class DependecyGraph
         Node? node = _nodes.FirstOrDefault(n => n.AbstractionType == type || n.ImplementationType == type);
         if (node == null)
         {
-            return new UnresolvedDependencyException();
+            return new UnresolvedDependencyException(type.Name);
         }
         if (node.Instance != null)
         {
@@ -72,14 +72,15 @@ internal class DependecyGraph
 
     private void SolveDependencies(Node node, HashSet<Node> setOfNodes, bool isSingleton)
     {
-        // check if the node needs dependencies
+        // check if the node's type depends on any other type
         if (node.TypeDependencies.Any() == false)
         {
             return;
         }
 
-        // clear the old dependecies
+        // clear the old dependencies
         node.Dependencies.Clear();
+        
 
         // check for circular dependencies
         if (setOfNodes.Contains(node))
@@ -94,11 +95,11 @@ internal class DependecyGraph
             var dependency = _nodes.FirstOrDefault(n => n.ImplementationType == type);
             if (dependency == null)
             {
-                throw new UnresolvedDependencyException();
+                throw new UnresolvedDependencyException(type.Name);
             }
             if (dependency.LifeTime == LifeTime.Scoped && isSingleton)
             {
-                throw new UnresolvedDependencyException(); /// CHANGE THIS EXCEPTION
+                throw new InvalidScopeException();
             }
             SolveDependencies(dependency, setOfNodes, isSingleton);
             node.Dependencies.Add(dependency);

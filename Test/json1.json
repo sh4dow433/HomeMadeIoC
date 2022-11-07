@@ -1,0 +1,12 @@
+{
+  "Services": [
+    {
+      "Abstraction": "",
+      "Type": "",
+      "IsSingleton": false,
+      "Params": [
+        5, "hi", "sall"
+      ]
+    }
+  ]
+}
