@@ -16,25 +16,25 @@ public class Container : IContainer
         throw new NotImplementedException();
     }
 
-    public void AddScoped<T>()
+    public void AddScoped<T>() where T : class, new()
     {
         var node = new Node(typeof(T));
         _dependecyGraph.AddNode(node);
     }
 
-    public void AddScoped<TAbstraction, TImplementation>()
+    public void AddScoped<TAbstraction, TImplementation>() where TImplementation : class, new()
     {
         var node = new Node(typeof(TAbstraction), typeof(TImplementation));
         _dependecyGraph.AddNode(node);
     }
 
-    public void AddSingleton<T>()
-    {
+    public void AddSingleton<T>() where T : class, new()
+    { 
         var node = new Node(typeof(T), LifeTime.Singleton);
         _dependecyGraph.AddNode(node);
     }
 
-    public void AddSingleton<TAbstraction, TImplementation>()
+    public void AddSingleton<TAbstraction, TImplementation>() where TImplementation : class, new()
     {
         var node = new Node(typeof(TAbstraction), typeof(TImplementation), LifeTime.Singleton);
         _dependecyGraph.AddNode(node);

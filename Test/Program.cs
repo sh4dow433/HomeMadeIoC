@@ -14,15 +14,16 @@ public class Program
         try
         {
             IContainer container = new Container();
-            container.AddScoped<IA, A>();
-            container.AddScoped<B>();
-            container.AddScoped<IC, C>();
+            container.AddSingleton<IA, A>();
+            container.AddSingleton<IA2, A>();
+            container.AddSingleton<B>();
+            container.AddSingleton<IC, C>();
             container.AddSingleton<D>();
 
             IA ia = container.GetService<IA>();
-            IA ia2 = container.GetService<A>();
+            IA2 ia2 = container.GetService<IA2>();
             ia.Hello();
-            ia2.Hello();
+          
             Console.WriteLine("hissss");
         }
         catch (Exception ex)
@@ -36,16 +37,17 @@ public interface IA
 {
     void Hello();
 }
-
-public class A : IA
+public interface IA2 { }
+public class A : IA, IA2
 {
+    static int i = 0;
     public void Hello()
     {
         Console.WriteLine("Hello fam");
     }
     public A(B b)
     {
-
+        Console.WriteLine($"heee {i++}");
     }
 }
 

@@ -10,11 +10,11 @@ public interface IContainer
 {
     T GetService<T>();
 
-    void AddSingleton<T>();
-    void AddSingleton<TAbstraction, TImplementation>();
+    void AddSingleton<T>() where T: class, new();
+    void AddSingleton<TAbstraction, TImplementation>() where TImplementation : class, new();
 
-    void AddScoped<T>();
-    void AddScoped<TAbstraction, TImplementation>();
+    void AddScoped<T>() where T : class, new();
+    void AddScoped<TAbstraction, TImplementation>() where TImplementation : class, new();
 
     void AddConfiguration(string path);
 }
