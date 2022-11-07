@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace HomeMadeIoC.Api;
 
-public class ContainerPlus : IContainer
+public class Container : IContainer
 {
     private readonly DependecyGraph _dependecyGraph = DependecyGraph.GetDependecyGraph;
 

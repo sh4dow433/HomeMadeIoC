@@ -13,7 +13,7 @@ public class Program
     {
         try
         {
-            IContainer container = new ContainerPlus();
+            IContainer container = new Container();
             container.AddScoped<IA, A>();
             container.AddScoped<B>();
             container.AddScoped<IC, C>();
