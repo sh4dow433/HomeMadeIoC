@@ -4,19 +4,21 @@ namespace HomeMadeIoC.Container;
 
 internal class DependecyGraph
 {
-    private readonly List<Node> _nodes = new();
-
-    private static DependecyGraph? _dependencyGraphSingleton;
     public static DependecyGraph DependencyGraphInstance => _dependencyGraphSingleton ??= new();
+    
+    private static DependecyGraph? _dependencyGraphSingleton;
+    private readonly List<Node> _nodes = new();
 
     private DependecyGraph()
     {
         // singleton
     }
+
     public void AddNode(Node node)
     {
         _nodes.Add(node);   
     }
+
     public object GetInstance(Type type)
     {
         Node? node = _nodes.FirstOrDefault(n => n.AbstractionType == type || n.ImplementationType == type);
@@ -69,7 +71,6 @@ internal class DependecyGraph
         return instance;
     }
 
-
     private void SolveDependencies(Node node, HashSet<Node> setOfNodes, bool isSingleton)
     {
         // check if the node's type depends on any other type
@@ -79,8 +80,13 @@ internal class DependecyGraph
         }
 
         // clear the old dependencies
-        node.Dependencies.Clear();
-        
+        // node.Dependencies.Clear();
+
+        // check if the dependencies were already solved
+        if (node.Dependencies.Any() == true)
+        {
+            return;
+        }
 
         // check for circular dependencies
         if (setOfNodes.Contains(node))
@@ -101,7 +107,7 @@ internal class DependecyGraph
             {
                 throw new InvalidScopeException();
             }
-            SolveDependencies(dependency, setOfNodes, isSingleton);
+            SolveDependencies(dependency, setOfNodes, isSingleton || dependency.LifeTime == LifeTime.Singleton);
             node.Dependencies.Add(dependency);
         }
     }

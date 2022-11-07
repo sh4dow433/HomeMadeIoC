@@ -22,6 +22,7 @@ public class Program
             IA ia = container.GetService<IA>();
             IA ia2 = container.GetService<A>();
             ia.Hello();
+            ia2.Hello();
             Console.WriteLine("hissss");
         }
         catch (Exception ex)
@@ -50,7 +51,7 @@ public class A : IA
 
 public class B
 {
-    public B(IC c, D d)
+    public B(C c, D d)
     {
 
     }
