@@ -44,25 +44,25 @@ public class Container : IContainer
         }
     }
 
-    public void AddScoped<T>() where T : class
+    public void AddScoped<T>()
     {
         var node = new Node(typeof(T));
         _dependecyGraph.AddNode(node);
     }
 
-    public void AddScoped<TAbstraction, TImplementation>() where TImplementation : class
+    public void AddScoped<TAbstraction, TImplementation>()
     { 
         var node = new Node(typeof(TAbstraction), typeof(TImplementation));
         _dependecyGraph.AddNode(node);
     }
 
-    public void AddSingleton<T>() where T : class
+    public void AddSingleton<T>()
     { 
         var node = new Node(typeof(T), LifeTime.Singleton);
         _dependecyGraph.AddNode(node);
     }
 
-    public void AddSingleton<TAbstraction, TImplementation>() where TImplementation : class
+    public void AddSingleton<TAbstraction, TImplementation>()
     {
         var node = new Node(typeof(TAbstraction), typeof(TImplementation), LifeTime.Singleton);
         _dependecyGraph.AddNode(node);

@@ -14,15 +14,15 @@ public class Program
         try
         {
             IContainer container = new Container();
-            //container.AddSingleton<IA, A>();
-            //container.AddSingleton<B>();
-            //container.AddSingleton<IC, C>();
+            //container.AddScoped<IA, A>();
+            //container.AddScoped<B>();
+            //container.AddScoped<IC, C>();
             //container.AddSingleton<D>();
             container.AddServicesFromConfigurationFile(Environment.CurrentDirectory + "/json1.json");
             IA ia = container.GetService<IA>();
-            IA ia2 = container.GetService<A>();
-            ia.Hello();
-            ia2.Hello();
+            A ia2 = container.GetService<A>();
+            ia.Hello("fam");
+            ia2.Hello("mate");
         }
         catch (Exception ex)
         {
@@ -33,16 +33,17 @@ public class Program
 
 public interface IA
 {
-    void Hello();
+    void Hello(string? name);
 }
 public class A : IA
 {
-    public void Hello()
+    public void Hello(string? name)
     {
-        Console.WriteLine("Hello fam");
+        Console.WriteLine($"Hello {name}");
     }
     public A(B b)
     {
+        Console.WriteLine("Hi from A");
     }
 }
 
@@ -50,7 +51,7 @@ public class B
 {
     public B(C c, D d)
     {
-
+        Console.WriteLine("Hi from B");
     }
 }
 

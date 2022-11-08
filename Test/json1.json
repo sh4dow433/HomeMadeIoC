@@ -1,19 +1,19 @@
 [
-  //{
-  //  "Abstraction": "Test.IA",
-  //  "Type": "Test.A",
-  //  "IsSingleton": false
-  //},
-  //{
-  //  "Type": "Test.B",
-  //  "IsSingleton": false
-  //},
-  //{
-  //  "Abstraction": "Test.IC",
-  //  "Type": "Test.C"
-  //},
-  //{
-  //  "Type": "Test.D",
-  //  "IsSingleton": true
-  //}
+  {
+    "Abstraction": "Test.IA",
+    "Type": "Test.A",
+    "IsSingleton": false
+  },
+  {
+    "Type": "Test.B",
+    "IsSingleton": false
+  },
+  {
+    "Abstraction": "Test.IC",
+    "Type": "Test.C"
+  },
+  {
+    "Type": "Test.D",
+    "IsSingleton": true
+  }
 ]
