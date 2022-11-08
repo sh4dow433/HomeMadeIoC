@@ -20,9 +20,9 @@ public class Program
             //container.AddSingleton<D>();
             container.AddServicesFromConfigurationFile(Environment.CurrentDirectory + "/json1.json");
             IA ia = container.GetService<IA>();
+            IA ia2 = container.GetService<A>();
             ia.Hello();
-          
-            Console.WriteLine("hissss");
+            ia2.Hello();
         }
         catch (Exception ex)
         {
@@ -37,14 +37,12 @@ public interface IA
 }
 public class A : IA
 {
-    static int i = 0;
     public void Hello()
     {
         Console.WriteLine("Hello fam");
     }
     public A(B b)
     {
-        Console.WriteLine($"heee {i++}");
     }
 }
 

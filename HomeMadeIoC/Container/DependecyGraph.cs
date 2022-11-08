@@ -24,7 +24,7 @@ internal class DependecyGraph
         Node? node = _nodes.FirstOrDefault(n => n.AbstractionType == type || n.ImplementationType == type);
         if (node == null)
         {
-            return new UnresolvedDependencyException(type.Name);
+            throw new UnresolvedDependencyException(type.Name);
         }
         if (node.Instance != null)
         {
