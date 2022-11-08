@@ -1,12 +1,20 @@
-{
-  "Services": [
-    {
-      "Abstraction": "",
-      "Type": "",
-      "IsSingleton": false,
-      "Params": [
-        5, "hi", "sall"
-      ]
-    }
-  ]
-}
+[
+  {
+    "Abstraction": "Test.IA",
+    "Type": "Test.A",
+    "IsSingleton": false
+  },
+  {
+    "Type": "Test.B",
+    "IsSingleton": false
+  },
+  {
+    "Abstraction": "Test.IC",
+    "Type": "Test.C",
+    "IsSingleton": false
+  },
+  {
+    "Type": "Test.D",
+    "IsSingleton": true
+  }
+]

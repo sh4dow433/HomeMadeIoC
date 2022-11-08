@@ -14,14 +14,12 @@ public class Program
         try
         {
             IContainer container = new Container();
-            container.AddSingleton<IA, A>();
-            container.AddSingleton<IA2, A>();
-            container.AddSingleton<B>();
-            container.AddSingleton<IC, C>();
-            container.AddSingleton<D>();
-
+            //container.AddSingleton<IA, A>();
+            //container.AddSingleton<B>();
+            //container.AddSingleton<IC, C>();
+            //container.AddSingleton<D>();
+            container.AddServicesFromConfigurationFile(Environment.CurrentDirectory + "/json1.json");
             IA ia = container.GetService<IA>();
-            IA2 ia2 = container.GetService<IA2>();
             ia.Hello();
           
             Console.WriteLine("hissss");
@@ -37,8 +35,7 @@ public interface IA
 {
     void Hello();
 }
-public interface IA2 { }
-public class A : IA, IA2
+public class A : IA
 {
     static int i = 0;
     public void Hello()

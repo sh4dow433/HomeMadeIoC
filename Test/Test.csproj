@@ -11,4 +11,10 @@
     <ProjectReference Include="..\HomeMadeIoC\HomeMadeIoC.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="json1.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
