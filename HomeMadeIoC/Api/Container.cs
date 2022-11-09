@@ -16,7 +16,7 @@ public class Container : IContainer
         var listOfServices = JsonFileParser.GetServicesFromFile(path);
         foreach(var service in listOfServices)
         {
-            Type? type = Type.GetType(service.Type + ", " + service.Type.Split('.')[0]);
+            Type? type = Type.GetType(service.Type);
             LifeTime lifeTime = LifeTime.Scoped;
             if (service.IsSingleton)
             {
@@ -28,7 +28,7 @@ public class Container : IContainer
             }
             if (service.Abstraction != null && service.Abstraction.Any())
             {
-                Type? abstraction = Type.GetType(service.Abstraction + ", " + service.Abstraction.Split('.')[0]);
+                Type? abstraction = Type.GetType(service.Abstraction);
                 if (abstraction == null)
                 {
                     throw new Exception($"{service.Abstraction} couldn't be found");

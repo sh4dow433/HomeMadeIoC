@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Test;
+namespace Test2;
 
 public class Program
 {
@@ -21,7 +21,7 @@ public class Program
             container.AddServicesFromConfigurationFile(Environment.CurrentDirectory + "/json1.json");
             IA ia = container.GetService<IA>();
             A ia2 = container.GetService<A>();
-            ia.Hello("fam");
+            ia.Hello("!!!");
             ia2.Hello("mate");
         }
         catch (Exception ex)
@@ -49,7 +49,7 @@ public class A : IA
 
 public class B
 {
-    public B(C c, D d)
+    public B(IC c, D d)
     {
         Console.WriteLine("Hi from B");
     }

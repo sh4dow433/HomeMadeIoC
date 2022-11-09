@@ -87,7 +87,10 @@ internal class DependecyGraph
         {
             return;
         }
-
+        if (node.TypeDependencies.Any(t => t == node.AbstractionType || t == node.ImplementationType))
+        {
+            throw new CircularDependencyException();
+        }
         // check for circular dependencies
         if (setOfNodes.Contains(node))
         {
