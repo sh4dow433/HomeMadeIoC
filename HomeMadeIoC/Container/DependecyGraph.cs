@@ -87,18 +87,19 @@ internal class DependecyGraph
         {
             return;
         }
+
+        // check for circular dependencies
         if (node.TypeDependencies.Any(t => t == node.AbstractionType || t == node.ImplementationType))
         {
             throw new CircularDependencyException();
         }
-        // check for circular dependencies
         if (setOfNodes.Contains(node))
         {
             throw new CircularDependencyException();
         }
         setOfNodes.Add(node);
 
-        // add the new dependencies recursively
+        // solve dependencies recursively
         foreach (var type in node.TypeDependencies)
         {
             var dependency = _nodes.FirstOrDefault(n => n.ImplementationType == type || n.AbstractionType == type);
