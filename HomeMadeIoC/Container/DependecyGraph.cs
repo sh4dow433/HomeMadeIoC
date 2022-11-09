@@ -17,6 +17,7 @@ internal class DependecyGraph
     public void AddNode(Node node)
     {
         _nodes[node.ImplementationType] = node;
+        
         if (node.ImplementationType.ToString() != node.AbstractionType.ToString())
         {
             _nodes[node.AbstractionType] = node;
@@ -26,18 +27,28 @@ internal class DependecyGraph
     public object GetInstance(Type type)
     {
         Node? node = _nodes[type];
+        // check if the type was registered in the dependency graph 
         if (node == null)
         {
             throw new UnresolvedDependencyException(type.Name);
         }
+
+        // check if there is an instance already created (only applies for singletons)
         if (node.Instance != null)
         {
             return node.Instance;   
         }
+
+        // update the type to make sure we are using the implementation type, not the abstraction type
         type = node.ImplementationType;
+
+        // result
         object? instance;
+
+        // type's lifetime
         bool isSingleton = node.LifeTime == LifeTime.Singleton;
         
+        // if the type has no dependencies try to create an instance of that type
         if (node.TypeDependencies == null || node.TypeDependencies.Any() == false)
         {
             instance = Activator.CreateInstance(type);
@@ -45,15 +56,20 @@ internal class DependecyGraph
             {
                 throw new Exception("Object couldn't be instantiated.");
             }
+
+            // if the registered type needs to be a singleton store the instance into a variable so it can be reused 
             if (isSingleton)
             {
                 node.Instance = instance;
             }
             return instance;
         }
+
+        // solve type's dependencies
         SolveDependencies(node, new(), isSingleton);
         object[] builtDependencies = new object[node.Dependencies.Count];
         
+        // get an instance of every dependency
         for(int i = 0; i < node.Dependencies.Count; i++)   
         {
             object? builtDependecy = GetInstance(node.Dependencies[i].ImplementationType);
@@ -63,11 +79,15 @@ internal class DependecyGraph
             }
             builtDependencies[i] = builtDependecy;  
         }
+
+        // try to instantiate our type using the built dependencies
         instance = Activator.CreateInstance(type, builtDependencies);
         if (instance == null)
         {
             throw new Exception("Object couldn't be instantiated.");
         }
+
+        // if the registered type needs to be a singleton store the instance into a variable so it can be reused 
         if (isSingleton)
         {
             node.Instance = instance;
@@ -77,14 +97,11 @@ internal class DependecyGraph
 
     private void SolveDependencies(Node node, HashSet<Node> setOfNodes, bool isSingleton)
     {
-        // check if the node's type depends on any other type
+        // check if the node's type depends on any other types
         if (node.TypeDependencies.Any() == false)
         {
             return;
         }
-
-        // clear the old dependencies
-        // node.Dependencies.Clear();
 
         // check if the dependencies were already solved
         if (node.Dependencies.Any() == true)
