@@ -7,7 +7,7 @@ internal class DependecyGraph
     public static DependecyGraph DependencyGraphInstance => _dependencyGraphSingleton ??= new();
     
     private static DependecyGraph? _dependencyGraphSingleton;
-    private readonly List<Node> _nodes = new();
+    private readonly Dictionary<Type, Node> _nodes = new();
 
     private DependecyGraph()
     {
@@ -16,12 +16,16 @@ internal class DependecyGraph
 
     public void AddNode(Node node)
     {
-        _nodes.Add(node);   
+        _nodes[node.ImplementationType] = node;
+        if (node.ImplementationType.ToString() != node.AbstractionType.ToString())
+        {
+            _nodes[node.AbstractionType] = node;
+        }
     }
 
     public object GetInstance(Type type)
     {
-        Node? node = _nodes.FirstOrDefault(n => n.AbstractionType == type || n.ImplementationType == type);
+        Node? node = _nodes[type];
         if (node == null)
         {
             throw new UnresolvedDependencyException(type.Name);
@@ -102,7 +106,7 @@ internal class DependecyGraph
         // solve dependencies recursively
         foreach (var type in node.TypeDependencies)
         {
-            var dependency = _nodes.FirstOrDefault(n => n.ImplementationType == type || n.AbstractionType == type);
+            var dependency = _nodes[type];
             if (dependency == null)
             {
                 throw new UnresolvedDependencyException(type.Name);
