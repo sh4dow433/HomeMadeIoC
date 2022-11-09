@@ -1,10 +1,5 @@
 ﻿using HomeMadeIoC.ConfigurationParser;
 using HomeMadeIoC.Container;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HomeMadeIoC.Api;
 

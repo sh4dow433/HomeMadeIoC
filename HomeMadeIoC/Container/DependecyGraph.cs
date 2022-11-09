@@ -66,7 +66,7 @@ internal class DependecyGraph
         }
 
         // solve type's dependencies
-        SolveDependencies(node, new(), isSingleton);
+        ResolveDependencies(node, new(), isSingleton);
         object[] builtDependencies = new object[node.Dependencies.Count];
         
         // get an instance of every dependency
@@ -95,7 +95,7 @@ internal class DependecyGraph
         return instance;
     }
 
-    private void SolveDependencies(Node node, HashSet<Node> setOfNodes, bool isSingleton)
+    private void ResolveDependencies(Node node, HashSet<Node> setOfNodes, bool isSingleton)
     {
         // check if the node's type depends on any other types
         if (node.TypeDependencies.Any() == false)
@@ -132,7 +132,7 @@ internal class DependecyGraph
             {
                 throw new InvalidLifeTimeException();
             }
-            SolveDependencies(dependency, setOfNodes, isSingleton || dependency.LifeTime == LifeTime.Singleton);
+            ResolveDependencies(dependency, setOfNodes, isSingleton || dependency.LifeTime == LifeTime.Singleton);
             node.Dependencies.Add(dependency);
         }
     }
