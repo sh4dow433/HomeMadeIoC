@@ -35,29 +35,17 @@ public class DirectorsService : IDirectorsService
     {
         return await _repo.DeleteAsync(id);
     }
-    public async Task<IEnumerable<Director>> GetDirectorsAsync(bool includeMovies = false)
+    public async Task<IEnumerable<Director>> GetDirectorsAsync()
     {
-        if (includeMovies)
-        {
-            return await _repo.GetAllAsync(new List<string> { "Movies" });
-        }
         return await _repo.GetAllAsync();
     }
-    public async Task<IEnumerable<Director>> GetDirectorsByNameAsync(string name, bool includeMovies = false)
+    public async Task<IEnumerable<Director>> GetDirectorsByNameAsync(string name)
     {
-        if (includeMovies)
-        {
-            return await _repo.GetAllAsync(d => d.Name.Contains(name), new List<string> { "Movies" });
-        }
         return await _repo.GetAllAsync(d => d.Name.Contains(name));
     }
 
-    public async Task<Director?> GetDirectorsByIdAsync(int id, bool includeMovies = false)
+    public async Task<Director?> GetDirectorsByIdAsync(int id)
     {
-        if (includeMovies)
-        {
-            return await _repo.GetAsync(id, new List<string> { "Movies" });
-        }
         return await _repo.GetAsync(id);
     }
 }

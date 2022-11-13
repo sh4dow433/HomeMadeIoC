@@ -1,3 +1,31 @@
 [
-
+  {
+    "Type": "Microsoft.Extensions.Configuration.ConfigurationBuilder, Microsoft.Extensions.Configuration",
+    "IsSingleton": true
+  },
+  {
+    "Abstraction": "Microsoft.EntityFrameworkCore.DbContext, Microsoft.EntityFrameworkCore",
+    "Type": "MoviesAPI.DataAccess.AppDbContext, MoviesAPI",
+    "IsSingleton": false
+  },
+  {
+    "Abstraction": "MoviesAPI.DataAccess.IGenericRepo`1[[MoviesAPI.Entities.Movie, MoviesAPI]], MoviesAPI",
+    "Type": "MoviesAPI.DataAccess.GenericRepo`1[[MoviesAPI.Entities.Movie, MoviesAPI]], MoviesAPI",
+    "IsSingleton": false
+  },
+  {
+    "Abstraction": "MoviesAPI.DataAccess.IGenericRepo`1[[MoviesAPI.Entities.Director, MoviesAPI]], MoviesAPI",
+    "Type": "MoviesAPI.DataAccess.GenericRepo`1[[MoviesAPI.Entities.Director, MoviesAPI]], MoviesAPI",
+    "IsSingleton": false
+  },
+  {
+    "Abstraction": "MoviesAPI.Services.IDirectorsService, MoviesAPI",
+    "Type": "MoviesAPI.Services.DirectorsService, MoviesAPI",
+    "IsSingleton": false
+  },
+  {
+    "Abstraction": "MoviesAPI.Services.IMoviesService, MoviesAPI",
+    "Type": "MoviesAPI.Services.MoviesService, MoviesAPI",
+    "IsSingleton": false
+  }
 ]

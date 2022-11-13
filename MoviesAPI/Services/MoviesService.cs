@@ -30,31 +30,17 @@ public class MoviesService : IMoviesService
         return (null, validationResults);
     }
 
-    public async Task<IEnumerable<Movie>> GetAllMoviesAsync(bool includeDirectors = false)
+    public async Task<IEnumerable<Movie>> GetAllMoviesAsync()
     {
-        if (includeDirectors)
-        {
-            return await _repo.GetAllAsync(new List<string> { "Director" });
-        }
         return await _repo.GetAllAsync();
     }
-    public async Task<IEnumerable<Movie>> GetAllMoviesByTitleAsync(string title, bool includeDirectors = false)
+    public async Task<IEnumerable<Movie>> GetAllMoviesByTitleAsync(string title)
     {
-
-        if (includeDirectors)
-        {
-            return await _repo.GetAllAsync(m => m.Title.Contains(title), new List<string> { "Director" });
-        }
         return await _repo.GetAllAsync(m => m.Title.Contains(title));
     }
 
-    public async Task<Movie?> GetMovieByIdAsync(int id, bool includeDirectors = false)
+    public async Task<Movie?> GetMovieByIdAsync(int id)
     {
-
-        if (includeDirectors)
-        {
-            return await _repo.GetAsync(id, new List<string> { "Director" });
-        }
         return await _repo.GetAsync(id);
     }
 

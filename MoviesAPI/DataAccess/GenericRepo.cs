@@ -35,48 +35,20 @@ public class GenericRepo<T> : IGenericRepo<T> where T : Entity, new()
         return entity;
     }
 
-    public async Task<IEnumerable<T>> GetAllAsync(IEnumerable<string>? includes = null)
+    public async Task<IEnumerable<T>> GetAllAsync()
     {
-        IQueryable<T> query = _dbContext.Set<T>();
-
-        if (includes != null)
-        {
-            foreach (var include in includes)
-            {
-                query = query.Include(include);
-            }
-        }
-
-        return await query.ToListAsync();
+        return await _dbContext.Set<T>().ToListAsync();
     }
 
-    public async Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>> filter, IEnumerable<string>? includes = null)
+    public async Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>> filter)
     {
-        IQueryable<T> query = _dbContext.Set<T>();
+        return await _dbContext.Set<T>().Where(filter).ToListAsync();
 
-        if (includes != null)
-        {
-            foreach (var include in includes)
-            {
-                query = query.Include(include);
-            }
-        }
-
-        return await query.Where(filter).ToListAsync();
     }
 
-    public async Task<T?> GetAsync(int id, IEnumerable<string>? includes = null)
+    public async Task<T?> GetAsync(int id)
     {
-        IQueryable<T> query = _dbContext.Set<T>();
-
-        if (includes != null)
-        {
-            foreach (var include in includes)
-            {
-                query = query.Include(include);
-            }
-        }
-        return await query.FirstOrDefaultAsync(entity => entity.Id == id);
+        return await _dbContext.Set<T>().FirstOrDefaultAsync(e => e.Id == id);
     }
 
     public async Task<T?> UpdateAsync(T entity)

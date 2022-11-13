@@ -17,7 +17,6 @@ public class AppDbContext : DbContext
             .AddJsonFile("appsettings.json")
             .Build();
 
-
         Movies = Set<Movie>();
         Directors = Set<Director>();
     }

@@ -4,8 +4,7 @@ using MoviesAPI.DataAccess;
 using MoviesAPI.Entities;
 using MoviesAPI.Services;
 using Newtonsoft.Json;
-using System.Text.Json;
-
+//using System.Text.Json;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(); 
@@ -13,14 +12,17 @@ builder.Services.AddSwaggerGen();
 
 // Add dependencies to the IoC contianer
 var homemadeIoC = new Container();
-// homemadeIoC.AddServicesFromConfigurationFile(Environment.CurrentDirectory + "/services.json");
 
-homemadeIoC.AddSingleton<ConfigurationBuilder>();
-homemadeIoC.AddScoped<DbContext, AppDbContext>();
-homemadeIoC.AddScoped<IGenericRepo<Movie>, GenericRepo<Movie>>();
-homemadeIoC.AddScoped<IGenericRepo<Director>, GenericRepo<Director>>();
-homemadeIoC.AddScoped<IDirectorsService, DirectorsService>();
-homemadeIoC.AddScoped<IMoviesService, MoviesService>();
+// You can add the dependencies manually here
+//homemadeIoC.AddSingleton<ConfigurationBuilder>();
+//homemadeIoC.AddScoped<DbContext, AppDbContext>();
+//homemadeIoC.AddScoped<IGenericRepo<Movie>, GenericRepo<Movie>>();
+//homemadeIoC.AddScoped<IGenericRepo<Director>, GenericRepo<Director>>();
+//homemadeIoC.AddScoped<IDirectorsService, DirectorsService>();
+//homemadeIoC.AddScoped<IMoviesService, MoviesService>();
+
+// Or you can use a configuration file to add the dependencies:
+homemadeIoC.AddServicesFromConfigurationFile(Environment.CurrentDirectory + "/services.json");
 
 var dbcontext = homemadeIoC.GetService<DbContext>();
 dbcontext.Database.Migrate(); // apply migrations
@@ -36,11 +38,11 @@ app.UseHttpsRedirection();
 
 #region MOVIES
 // MOVIES API ROUTES:
-app.MapGet("/movies", async (HttpRequest request) =>
+app.MapGet("/movies", async () =>
 {
     var moviesService = homemadeIoC.GetService<IMoviesService>();
     IEnumerable<Movie> result;
-    result = await moviesService.GetAllMoviesAsync(request.Query["includeDirector"].ToString().ToUpper() == "TRUE");
+    result = await moviesService.GetAllMoviesAsync();
     if (result == null || result.Any() == false)
     {
         return Results.NotFound("No movie could be found");
@@ -48,11 +50,11 @@ app.MapGet("/movies", async (HttpRequest request) =>
     return Results.Ok(result);
 });
 
-app.MapGet("/movies/bytitle/{title}", async (string title, HttpRequest request) =>
+app.MapGet("/movies/bytitle/{title}", async (string title) =>
 {
     var moviesService = homemadeIoC.GetService<IMoviesService>();
     IEnumerable<Movie> result;
-    result = await moviesService.GetAllMoviesByTitleAsync(title, request.Query["includeDirector"].ToString().ToUpper() == "TRUE");
+    result = await moviesService.GetAllMoviesByTitleAsync(title);
     if (result == null || result.Any() == false)
     {
         return Results.NotFound("No movie could be found");
@@ -60,11 +62,11 @@ app.MapGet("/movies/bytitle/{title}", async (string title, HttpRequest request) 
     return Results.Ok(result);
 });
 
-app.MapGet("/movies/{id:int}", async (int id, HttpRequest request) =>
+app.MapGet("/movies/{id:int}", async (int id) =>
 {
     var moviesService = homemadeIoC.GetService<IMoviesService>();
     Movie? result;
-    result = await moviesService.GetMovieByIdAsync(id, request.Query["includeDirector"].ToString().ToUpper() == "TRUE");
+    result = await moviesService.GetMovieByIdAsync(id);
     if (result == null)
     {
         return Results.NotFound("No movie could be found for the given id");
@@ -109,11 +111,11 @@ app.MapDelete("/movies/{id:int}", async (int id) =>
 
 #region DIRECTORS
 // DIRECTORS API ROUTES:
-app.MapGet("/directors", async (HttpRequest request) =>
+app.MapGet("/directors", async () =>
 {
     var directorsService = homemadeIoC.GetService<IDirectorsService>();
     IEnumerable<Director> result;
-    result = await directorsService.GetDirectorsAsync(request.Query["includeMovies"].ToString().ToUpper() == "TRUE");
+    result = await directorsService.GetDirectorsAsync();
     if (result == null || result.Any() == false)
     {
         return Results.NotFound("No director could be found");
@@ -121,11 +123,11 @@ app.MapGet("/directors", async (HttpRequest request) =>
     return Results.Ok(result);
 });
 
-app.MapGet("/directors/byname/{name}", async (string name, HttpRequest request) =>
+app.MapGet("/directors/byname/{name}", async (string name) =>
 {
     var directorsService = homemadeIoC.GetService<IDirectorsService>();
     IEnumerable<Director> result;
-    result = await directorsService.GetDirectorsByNameAsync(name, request.Query["includeMovies"].ToString().ToUpper() == "TRUE");
+    result = await directorsService.GetDirectorsByNameAsync(name);
     if (result == null || result.Any() == false)
     {
         return Results.NotFound("No director could be found");
@@ -133,11 +135,11 @@ app.MapGet("/directors/byname/{name}", async (string name, HttpRequest request) 
     return Results.Ok(result);
 });
 
-app.MapGet("/directors/{id:int}", async (int id, HttpRequest request) =>
+app.MapGet("/directors/{id:int}", async (int id) =>
 {
     var directorsService = homemadeIoC.GetService<IDirectorsService>();
     Director? result;
-    result = await directorsService.GetDirectorsByIdAsync(id, request.Query["includeMovies"].ToString().ToUpper() == "TRUE");
+    result = await directorsService.GetDirectorsByIdAsync(id);
     if (result == null)
     {
         return Results.NotFound("No director could be found");
