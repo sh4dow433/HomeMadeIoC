@@ -11,19 +11,9 @@ public class Movie : Entity
     public int DurationInMinutes { get; set; }
     public string? Description { get; set; }
     
-    [Required]
     [ForeignKey(nameof(DirectorId))]    
     public Director Director { get; set; } = null!;
+    [Required]
     public int DirectorId { get; set; }
-
-}
-
-public class Director : Entity
-{
-    [Required]
-    public string Name { get; set; } = null!;
-    [Required]
-    public int Age { get; set; }
-    public List<Movie> Movies { get; set; } = new();
 
 }

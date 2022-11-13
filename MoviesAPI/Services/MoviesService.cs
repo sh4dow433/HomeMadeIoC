@@ -34,7 +34,7 @@ public class MoviesService : IMoviesService
     {
         if (includeDirectors)
         {
-            return await _repo.GetAllAsync(new List<string> { "Directors" });
+            return await _repo.GetAllAsync(new List<string> { "Director" });
         }
         return await _repo.GetAllAsync();
     }
@@ -43,7 +43,7 @@ public class MoviesService : IMoviesService
 
         if (includeDirectors)
         {
-            return await _repo.GetAllAsync(m => m.Title.Contains(title), new List<string> { "Directors" });
+            return await _repo.GetAllAsync(m => m.Title.Contains(title), new List<string> { "Director" });
         }
         return await _repo.GetAllAsync(m => m.Title.Contains(title));
     }
@@ -53,7 +53,7 @@ public class MoviesService : IMoviesService
 
         if (includeDirectors)
         {
-            return await _repo.GetAsync(id, new List<string> { "Directors" });
+            return await _repo.GetAsync(id, new List<string> { "Director" });
         }
         return await _repo.GetAsync(id);
     }
