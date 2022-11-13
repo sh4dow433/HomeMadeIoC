@@ -1,10 +1,8 @@
 using HomeMadeIoC.Api;
 using Microsoft.EntityFrameworkCore;
-using MoviesAPI.DataAccess;
 using MoviesAPI.Entities;
 using MoviesAPI.Services;
-using Newtonsoft.Json;
-//using System.Text.Json;
+
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(); 
