@@ -1,9 +1,4 @@
 ﻿using HomeMadeIoC.Api;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Test2;
 
@@ -14,13 +9,14 @@ public class Program
         try
         {
             IContainer container = new Container();
-            //container.AddScoped<IA, A>();
-            //container.AddScoped<B>();
-            //container.AddScoped<IC, C>();
-            //container.AddSingleton<D>();
-            container.AddServicesFromConfigurationFile(Environment.CurrentDirectory + "/json1.json");
+            container.AddScoped<IA, A<int, string>>();
+            container.AddScoped<B>();
+            container.AddScoped<IC, C>();
+            container.AddSingleton<D>();
+            Console.WriteLine(typeof(A<int,string>));
+            //container.AddServicesFromConfigurationFile(Environment.CurrentDirectory + "/json1.json");
             IA ia = container.GetService<IA>();
-            A ia2 = container.GetService<A>();
+            A<int,string> ia2 = container.GetService<A<int, string>>();
             ia.Hello("!!!");
             ia2.Hello("mate");
         }
@@ -35,7 +31,7 @@ public interface IA
 {
     void Hello(string? name);
 }
-public class A : IA
+public class A<T, G> : IA
 {
     public void Hello(string? name)
     {
