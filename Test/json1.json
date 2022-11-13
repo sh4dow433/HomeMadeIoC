@@ -1,7 +1,7 @@
 [
   {
     "Abstraction": "Test2.IA, Test",
-    "Type": "Test2.A, Test",
+    "Type": "Test2.A`2[System.Int32, System.String], Test",
     "IsSingleton": false
   },
   {

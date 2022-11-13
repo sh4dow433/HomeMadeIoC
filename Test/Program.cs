@@ -9,12 +9,12 @@ public class Program
         try
         {
             IContainer container = new Container();
-            container.AddScoped<IA, A<int, string>>();
-            container.AddScoped<B>();
-            container.AddScoped<IC, C>();
-            container.AddSingleton<D>();
-            Console.WriteLine(typeof(A<int,string>));
-            //container.AddServicesFromConfigurationFile(Environment.CurrentDirectory + "/json1.json");
+            //container.AddScoped<IA, A<int, string>>();
+            //container.AddScoped<B>();
+            //container.AddScoped<IC, C>();
+            //container.AddSingleton<D>();
+            //Console.WriteLine(typeof(A<int,string>));
+            container.AddServicesFromConfigurationFile(Environment.CurrentDirectory + "/json1.json");
             IA ia = container.GetService<IA>();
             A<int,string> ia2 = container.GetService<A<int, string>>();
             ia.Hello("!!!");
