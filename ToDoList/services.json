@@ -1,0 +1,14 @@
+[
+  {
+    "Type": "ToDoList.DataAccess.AppDbContext, ToDoList"
+  },
+  {
+    "Type": "ToDoList.DataAccess.TaskRepo, ToDoList"
+  },
+  {
+    "Type": "ToDoList.TaskService, ToDoList"
+  },
+  {
+    "Type": "ToDoList.Application, ToDoList"
+  }
+]

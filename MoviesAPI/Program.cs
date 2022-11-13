@@ -36,7 +36,6 @@ if (app.Environment.IsDevelopment())
 }
 app.UseHttpsRedirection();
 
-#region MOVIES
 // MOVIES API ROUTES:
 app.MapGet("/movies", async () =>
 {
@@ -107,9 +106,7 @@ app.MapDelete("/movies/{id:int}", async (int id) =>
     }
     return Results.Ok(result);
 });
-#endregion
 
-#region DIRECTORS
 // DIRECTORS API ROUTES:
 app.MapGet("/directors", async () =>
 {
@@ -179,7 +176,6 @@ app.MapDelete("/directors/{id:int}", async (int id) =>
     }
     return Results.Ok(result);
 });
-#endregion
 
 app.Run();
 
