@@ -1,5 +1,6 @@
 using HomeMadeIoC.Api;
 using Microsoft.EntityFrameworkCore;
+using MoviesAPI.DataAccess;
 using MoviesAPI.Entities;
 using MoviesAPI.Services;
 
